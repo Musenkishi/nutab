@@ -176,6 +176,17 @@ const App = () => {
             underline="none"
             variant="subtitle2"
           >
+            Photo
+          </NuLink>
+          <Typography color="inherit" variant="subtitle2">
+            by
+          </Typography>
+          <NuLink
+            href={image?.user.links.html}
+            color="inherit"
+            underline="none"
+            variant="subtitle2"
+          >
             {image?.user.name}
           </NuLink>
         </Stack>
