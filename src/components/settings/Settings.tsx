@@ -49,7 +49,7 @@ type SettingsProps = {
     | undefined;
 };
 
-const SettingsDialog: FunctionComponent<SettingsProps> = (props) => {
+const Settings: FunctionComponent<SettingsProps> = (props) => {
   const [keywordsStore, setKeywordsStore] = useLocalStorage(
     localStorageKeys.KEYWORDS,
     "green macro"
@@ -227,4 +227,4 @@ const SettingsDialog: FunctionComponent<SettingsProps> = (props) => {
   );
 };
 
-export default SettingsDialog;
+export default Settings;

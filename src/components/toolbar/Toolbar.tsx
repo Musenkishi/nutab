@@ -4,7 +4,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
 import { IconButton, Stack, StackTypeMap, Tooltip } from "@mui/material";
 import React, { forwardRef, useState } from "react";
-import SettingsDialog from "../settings/SettingsDialog";
+import Settings from "../settings/Settings";
 
 type Props = {
   zIndex: number;
@@ -61,7 +61,7 @@ const Toolbar = forwardRef<StackTypeMap, Props>((props, ref) => {
           <SettingsIcon />
         </IconButton>
       </Tooltip>
-      <SettingsDialog
+      <Settings
         open={settingsDialogOpen}
         onClose={() => setSettingsDialogOpen(false)}
       />
