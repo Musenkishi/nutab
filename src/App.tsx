@@ -1,7 +1,7 @@
 import { Box, Stack, SvgIcon, ThemeProvider, Typography } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
 import Clock from "react-live-clock";
-import { useReadLocalStorage } from "usehooks-ts";
+import { useLocalStorage, useReadLocalStorage } from "usehooks-ts";
 import getImage from "./Api";
 import "./App.css";
 import { defaultStorageValues, localStorageKeys } from "./app/storage";
@@ -28,12 +28,16 @@ const App = () => {
   const keywords =
     useReadLocalStorage(localStorageKeys.KEYWORDS) ||
     defaultStorageValues.KEYWORDS;
-  const blurRadius =
-    useReadLocalStorage(localStorageKeys.BLUR_RADIUS) ||
-    defaultStorageValues.BLUR_RADIUS;
-  const brightness =
-    useReadLocalStorage(localStorageKeys.BRIGHTNESS) ||
-    defaultStorageValues.BRIGHTNESS;
+
+  const [blurRadius, setBlur] = useLocalStorage(
+    localStorageKeys.BLUR_RADIUS,
+    defaultStorageValues.BLUR_RADIUS
+  );
+
+  const [brightness, setBrightness] = useLocalStorage(
+    localStorageKeys.BRIGHTNESS,
+    defaultStorageValues.BRIGHTNESS
+  );
   const [widgetTop, setWidgetTop] = useState(getRandomInt());
   const [widgetLeft, setWidgetLeft] = useState(getRandomInt());
   const [image, setImage] = useState<UnsplashImage | undefined>(undefined);
