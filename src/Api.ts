@@ -1,5 +1,5 @@
 import { localStorageKeys } from "./app/storage";
-import UnsplashImage from "./types/Unsplash";
+import { UnsplashImage, UnsplashImageCollection } from "./types/Unsplash";
 
 const fetchImages = async (query: string) => {
   const url = new URL("https://api.unsplash.com/photos/random");
@@ -21,27 +21,30 @@ const fetchImages = async (query: string) => {
   return images;
 };
 
-const getStoredImages = () => {
+const getStoredCollection = () => {
   const storedImagesJson = localStorage.getItem(localStorageKeys.IMAGES);
-  const storedImages: UnsplashImage[] = JSON.parse(storedImagesJson || "[]");
+  const storedImages: UnsplashImageCollection = JSON.parse(
+    storedImagesJson || '{"query":"", "images":[]}'
+  );
   return storedImages;
 };
 
-const setStoredImages = (images: UnsplashImage[]) => {
-  localStorage.setItem(localStorageKeys.IMAGES, JSON.stringify(images));
+const setStoredCollection = (collection: UnsplashImageCollection) => {
+  localStorage.setItem(localStorageKeys.IMAGES, JSON.stringify(collection));
 };
 
 const getImage = async (query: string) => {
-  const storedImages = getStoredImages();
-  if (storedImages.length > 0) {
-    const image = storedImages.shift();
-    setStoredImages(storedImages);
+  const storedImages = getStoredCollection();
+  const isNewQuery = query !== storedImages.query;
+  if (!isNewQuery && storedImages && storedImages.images.length > 0) {
+    const image = storedImages.images.shift();
+    setStoredCollection(storedImages);
     return image;
   } else {
     const images = await fetchImages(query);
     if (images) {
       const image = images.shift();
-      setStoredImages(images);
+      setStoredCollection({ query, images });
       return image;
     }
   }

@@ -9,7 +9,7 @@ import CrossfadeImage from "./components/crossfade/CrossfadeImage";
 import NuLink from "./components/link/NuLink";
 import Toolbar from "./components/toolbar/Toolbar";
 import theme from "./theme/theme";
-import UnsplashImage from "./types/Unsplash";
+import { UnsplashImage } from "./types/Unsplash";
 
 const App = () => {
   const zIndexes = {
