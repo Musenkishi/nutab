@@ -5,12 +5,12 @@ import {
   CardHeader,
   CardMedia,
   Collapse,
-  Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
   Divider,
+  Drawer,
   FormControlLabel,
   FormGroup,
   Icon,
@@ -114,7 +114,12 @@ const SettingsDialog: FunctionComponent<SettingsProps> = (props) => {
   };
 
   return (
-    <Dialog open={props.open} onClose={props.onClose}>
+    <Drawer
+      BackdropProps={{ invisible: true }}
+      anchor="right"
+      open={props.open}
+      onClose={props.onClose}
+    >
       <DialogTitle>Settings</DialogTitle>
       <DialogContent dividers>
         <FormGroup sx={{ gap: 2 }}>
@@ -125,7 +130,7 @@ const SettingsDialog: FunctionComponent<SettingsProps> = (props) => {
             autoFocus
             margin="dense"
             id={idKeywords}
-            label="Keywords (E.g. 'mountains night')"
+            label="Keywords (e.g. 'mountains night')"
             type="search"
             fullWidth
             onChange={handleChange}
@@ -214,11 +219,11 @@ const SettingsDialog: FunctionComponent<SettingsProps> = (props) => {
           </Collapse>
         </FormGroup>
       </DialogContent>
-      <DialogActions>
+      {/* <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>
         <Button onClick={handleSave}>Save</Button>
-      </DialogActions>
-    </Dialog>
+      </DialogActions> */}
+    </Drawer>
   );
 };
 
