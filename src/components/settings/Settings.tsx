@@ -1,11 +1,4 @@
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
-  Button,
-  Card,
-  CardHeader,
-  CardMedia,
-  Collapse,
-  DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
@@ -13,34 +6,14 @@ import {
   Drawer,
   FormControlLabel,
   FormGroup,
-  Icon,
-  IconProps,
-  ListItemButton,
   Slider,
   Stack,
-  styled,
   TextField,
   Typography,
 } from "@mui/material";
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent } from "react";
 import { useLocalStorage } from "usehooks-ts";
 import { localStorageKeys } from "../../app/storage";
-import previewSrc from "../../splash_settings_preview.jpg";
-
-interface ExpandMoreProps extends IconProps {
-  expand: boolean;
-}
-
-const ExpandMore = styled((props: ExpandMoreProps) => {
-  const { expand, ...other } = props;
-  return <Icon {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-  marginLeft: "auto",
-  transition: theme.transitions.create("transform", {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
 
 type SettingsProps = {
   open: boolean;
@@ -64,12 +37,6 @@ const Settings: FunctionComponent<SettingsProps> = (props) => {
     1.0
   );
 
-  const [keywordsText, setKeyWordsText] = useState(keywordsStore);
-
-  const [blurSliderValue, setBlurSliderValue] = useState(blurStore);
-  const [brightnessValue, setBrightnessValue] = useState(brightnessStore);
-  const [expanded, setExpanded] = useState(false);
-
   const idKeywords = "idKeywords";
   const idBlur = "idBlur";
   const idBrightness = "idBrightness";
@@ -78,17 +45,10 @@ const Settings: FunctionComponent<SettingsProps> = (props) => {
     props.onClose && props.onClose("", "escapeKeyDown");
   };
 
-  const handleSave = () => {
-    setKeywordsStore(keywordsText);
-    setBlurStore(blurSliderValue);
-    setBrightnessStore(brightnessValue);
-    handleClose();
-  };
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     switch (event.target.id) {
       case idKeywords:
-        setKeyWordsText(event.target.value);
+        setKeywordsStore(event.target.value);
         break;
     }
   };
@@ -99,18 +59,15 @@ const Settings: FunctionComponent<SettingsProps> = (props) => {
   };
 
   const handleSliderChange = (event: any, newValue: number | number[]) => {
+    const value = newValue as number;
     switch (event.target.name) {
       case idBlur:
-        setBlurSliderValue(newValue as number);
+        setBlurStore(value);
         break;
       case idBrightness:
-        setBrightnessValue(newValue as number);
+        setBrightnessStore(value);
         break;
     }
-  };
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
   };
 
   return (
@@ -134,95 +91,51 @@ const Settings: FunctionComponent<SettingsProps> = (props) => {
             type="search"
             fullWidth
             onChange={handleChange}
-            defaultValue={keywordsText}
+            defaultValue={keywordsStore}
             onKeyPress={(ev) => {
-              if (ev.key === "Enter") handleSave();
+              if (ev.key === "Enter") handleClose();
             }}
           />
           <Divider />
-          <Stack
-            direction="row"
-            sx={{
-              backgroundColor: "",
-            }}
-          >
-            <ListItemButton onClick={handleExpandClick}>
-              <Typography variant="body1">Background effects</Typography>
-              <ExpandMore
-                expand={expanded}
-                aria-expanded={expanded}
-                aria-label="show more"
-              >
-                <ExpandMoreIcon />
-              </ExpandMore>
-            </ListItemButton>
-          </Stack>
-          <Collapse in={expanded} timeout="auto" unmountOnExit>
-            <Stack spacing={2} paddingLeft={4} paddingRight={4}>
-              <Card
-                sx={{
-                  maxWidth: "15rem",
-                  height: "15rem",
-                  alignSelf: "center",
-                }}
-              >
-                <CardHeader subheader="Preview" sx={{ padding: 1 }} />
-                <CardMedia
-                  component="img"
-                  image={previewSrc}
-                  alt="preview image for effects"
-                  sx={{
-                    filter:
-                      "blur(" +
-                      blurSliderValue +
-                      "rem) brightness(" +
-                      brightnessValue +
-                      ")",
-                  }}
+          <Stack spacing={2} paddingLeft={4} paddingRight={4}>
+            <Typography variant="body1">Background effects</Typography>
+            <FormControlLabel
+              labelPlacement="top"
+              control={
+                <Slider
+                  name={idBrightness}
+                  value={brightnessStore}
+                  step={0.1}
+                  marks
+                  min={0.0}
+                  max={1.0}
+                  valueLabelDisplay="auto"
+                  valueLabelFormat={valueLabelFormat}
+                  onChange={handleSliderChange}
                 />
-              </Card>
-              <FormControlLabel
-                labelPlacement="top"
-                control={
-                  <Slider
-                    name={idBrightness}
-                    value={brightnessValue}
-                    step={0.1}
-                    marks
-                    min={0.0}
-                    max={1.0}
-                    valueLabelDisplay="auto"
-                    valueLabelFormat={valueLabelFormat}
-                    onChange={handleSliderChange}
-                  />
-                }
-                label="Brightness"
-              />
-              <FormControlLabel
-                labelPlacement="top"
-                control={
-                  <Slider
-                    name={idBlur}
-                    value={blurSliderValue}
-                    step={0.1}
-                    marks
-                    min={0.0}
-                    max={1.0}
-                    valueLabelDisplay="auto"
-                    valueLabelFormat={valueLabelFormat}
-                    onChange={handleSliderChange}
-                  />
-                }
-                label="Blur"
-              />
-            </Stack>
-          </Collapse>
+              }
+              label="Brightness"
+            />
+            <FormControlLabel
+              labelPlacement="top"
+              control={
+                <Slider
+                  name={idBlur}
+                  value={blurStore}
+                  step={0.1}
+                  marks
+                  min={0.0}
+                  max={1.0}
+                  valueLabelDisplay="auto"
+                  valueLabelFormat={valueLabelFormat}
+                  onChange={handleSliderChange}
+                />
+              }
+              label="Blur"
+            />
+          </Stack>
         </FormGroup>
       </DialogContent>
-      {/* <DialogActions>
-        <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={handleSave}>Save</Button>
-      </DialogActions> */}
     </Drawer>
   );
 };
