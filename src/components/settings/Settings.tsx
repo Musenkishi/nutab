@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { FunctionComponent } from "react";
 import { useLocalStorage } from "usehooks-ts";
-import { localStorageKeys } from "../../app/storage";
+import { defaultStorageValues, localStorageKeys } from "../../app/storage";
 
 type SettingsProps = {
   open: boolean;
@@ -25,16 +25,16 @@ type SettingsProps = {
 const Settings: FunctionComponent<SettingsProps> = (props) => {
   const [keywordsStore, setKeywordsStore] = useLocalStorage(
     localStorageKeys.KEYWORDS,
-    "green macro"
+    defaultStorageValues.KEYWORDS
   );
   const [blurStore, setBlurStore] = useLocalStorage(
     localStorageKeys.BLUR_RADIUS,
-    0.4
+    defaultStorageValues.BLUR_RADIUS
   );
 
   const [brightnessStore, setBrightnessStore] = useLocalStorage(
     localStorageKeys.BRIGHTNESS,
-    1.0
+    defaultStorageValues.BRIGHTNESS
   );
 
   const idKeywords = "idKeywords";

@@ -2,9 +2,9 @@ import { Box, Stack, SvgIcon, ThemeProvider, Typography } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
 import Clock from "react-live-clock";
 import { useReadLocalStorage } from "usehooks-ts";
-import Api from "./Api";
+import getImage from "./Api";
 import "./App.css";
-import { localStorageKeys } from "./app/storage";
+import { defaultStorageValues, localStorageKeys } from "./app/storage";
 import CrossfadeImage from "./components/crossfade/CrossfadeImage";
 import NuLink from "./components/link/NuLink";
 import Toolbar from "./components/toolbar/Toolbar";
@@ -25,9 +25,15 @@ const App = () => {
     return Math.floor(Math.random() * (max - min) + min);
   };
 
-  const keywords = useReadLocalStorage(localStorageKeys.KEYWORDS);
-  const blurRadius = useReadLocalStorage(localStorageKeys.BLUR_RADIUS);
-  const brightness = useReadLocalStorage(localStorageKeys.BRIGHTNESS);
+  const keywords =
+    useReadLocalStorage(localStorageKeys.KEYWORDS) ||
+    defaultStorageValues.KEYWORDS;
+  const blurRadius =
+    useReadLocalStorage(localStorageKeys.BLUR_RADIUS) ||
+    defaultStorageValues.BLUR_RADIUS;
+  const brightness =
+    useReadLocalStorage(localStorageKeys.BRIGHTNESS) ||
+    defaultStorageValues.BRIGHTNESS;
   const [widgetTop, setWidgetTop] = useState(getRandomInt());
   const [widgetLeft, setWidgetLeft] = useState(getRandomInt());
   const [image, setImage] = useState<UnsplashImage | undefined>(undefined);
@@ -39,7 +45,7 @@ const App = () => {
       setWidgetTop(getRandomInt());
       setWidgetLeft(getRandomInt());
     };
-    const image: UnsplashImage = await Api(keywords as string);
+    const image: UnsplashImage | undefined = await getImage(keywords as string);
     setImage(image);
     preventScreenBurnIn();
   }, [keywords]);
@@ -166,7 +172,7 @@ const App = () => {
             <SvgIcon fontSize="inherit" viewBox="0 0 32 32">
               <path
                 d="M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z"
-                fill-rule="nonzero"
+                fillRule="nonzero"
               />
             </SvgIcon>
           </NuLink>
