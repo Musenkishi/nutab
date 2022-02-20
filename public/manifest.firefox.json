@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "NuTab",
     "short_name": "NuTab",
-    "version": "1.0",
+    "version": "1.0.1",
     "description": "Replaces your start- or new tab page with a minimalistic clock and beautiful backgrounds.",
     "author": "Freddie Lust-Hed",
     "homepage_url": "https://github.com/Musenkishi/nutab",
