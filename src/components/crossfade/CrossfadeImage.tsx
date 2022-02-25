@@ -59,7 +59,7 @@ const CrossfadeImage: FunctionComponent<CrossfadeImageProps> = (props) => {
         onLoad={handleOnLoadA}
         alt=""
       />
-      <Fade in={showB} timeout={2000}>
+      <Fade in={showB} timeout={!!srcA ? 2000 : 500}>
         <img
           style={{
             ...defaultStyle,
