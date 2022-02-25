@@ -83,3 +83,7 @@ export type UnsplashImageCollection = {
   query: string;
   images: UnsplashImage[];
 };
+
+export type DatedUnsplashImage = UnsplashImage & {
+  retreived_at: number;
+}

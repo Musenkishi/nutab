@@ -3,6 +3,7 @@ export const localStorageKeys = {
   BLUR_RADIUS: "NuTabBlurRadius",
   BRIGHTNESS: "NuTabBrightness",
   IMAGES: "NuTabImages",
+  CURRENT_IMAGE: "NuTabCurrentImage",
 };
 
 export const defaultStorageValues = {

@@ -9,7 +9,7 @@ import CrossfadeImage from "./components/crossfade/CrossfadeImage";
 import NuLink from "./components/link/NuLink";
 import Toolbar from "./components/toolbar/Toolbar";
 import theme from "./theme/theme";
-import { UnsplashImage } from "./types/Unsplash";
+import { DatedUnsplashImage, UnsplashImage } from "./types/Unsplash";
 
 const App = () => {
   const zIndexes = {
@@ -38,6 +38,12 @@ const App = () => {
     localStorageKeys.BRIGHTNESS,
     defaultStorageValues.BRIGHTNESS
   );
+
+  const [currentImage, setCurrentImage] = useLocalStorage(
+    localStorageKeys.CURRENT_IMAGE,
+    ""
+  );
+
   const [widgetTop, setWidgetTop] = useState(getRandomInt());
   const [widgetLeft, setWidgetLeft] = useState(getRandomInt());
   const [image, setImage] = useState<UnsplashImage | undefined>(undefined);
@@ -51,6 +57,13 @@ const App = () => {
     };
     const image: UnsplashImage | undefined = await getImage(keywords as string);
     setImage(image);
+    if (image) {
+      const datedImage: DatedUnsplashImage = {
+        ...image,
+        retreived_at: new Date().getTime(),
+      };
+      setCurrentImage(JSON.stringify(datedImage));
+    }
     preventScreenBurnIn();
   }, [keywords]);
 
@@ -73,10 +86,22 @@ const App = () => {
 
   useEffect(() => {
     if (!image) {
-      console.log("No image at boot, fetching...");
-      loadImage();
+      if (!currentImage) {
+        console.log("No image at boot, fetching...");
+        loadImage();
+      } else {
+        const datedImage: DatedUnsplashImage = JSON.parse(currentImage);
+        const currentDate = new Date().getTime();
+        const diffMilliSecs = currentDate - datedImage.retreived_at;
+        if (diffMilliSecs > delayInMilliSecs) {
+          console.log("No image at boot, fetching...");
+          loadImage();
+        } else {
+          setImage(JSON.parse(currentImage));
+        }
+      }
     }
-  }, [image, loadImage]);
+  }, [currentImage, delayInMilliSecs, image, loadImage]);
 
   return (
     <ThemeProvider theme={theme}>
