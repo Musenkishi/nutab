@@ -1,4 +1,4 @@
-import { localStorageKeys } from "./app/storage";
+import { LOCALSTORAGE_KEYS } from "./app/storage";
 import { UnsplashImage, UnsplashImageCollection } from "./types/Unsplash";
 
 const fetchImages = async (query: string) => {
@@ -22,7 +22,7 @@ const fetchImages = async (query: string) => {
 };
 
 const getStoredCollection = () => {
-  const storedImagesJson = localStorage.getItem(localStorageKeys.IMAGES);
+  const storedImagesJson = localStorage.getItem(LOCALSTORAGE_KEYS.IMAGES);
   const storedImages: UnsplashImageCollection = JSON.parse(
     storedImagesJson || '{"query":"", "images":[]}'
   );
@@ -30,7 +30,7 @@ const getStoredCollection = () => {
 };
 
 const setStoredCollection = (collection: UnsplashImageCollection) => {
-  localStorage.setItem(localStorageKeys.IMAGES, JSON.stringify(collection));
+  localStorage.setItem(LOCALSTORAGE_KEYS.IMAGES, JSON.stringify(collection));
 };
 
 const getImage = async (query: string) => {

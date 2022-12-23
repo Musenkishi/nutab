@@ -4,7 +4,7 @@ import Clock from "react-live-clock";
 import { useLocalStorage, useReadLocalStorage } from "usehooks-ts";
 import getImage from "./Api";
 import "./App.css";
-import { defaultStorageValues, localStorageKeys } from "./app/storage";
+import { defaultStorageValues, LOCALSTORAGE_KEYS } from "./app/storage";
 import CrossfadeImage from "./components/crossfade/CrossfadeImage";
 import NuLink from "./components/link/NuLink";
 import Toolbar from "./components/toolbar/Toolbar";
@@ -26,29 +26,39 @@ const App = () => {
   };
 
   const keywords =
-    useReadLocalStorage(localStorageKeys.KEYWORDS) ||
+    useReadLocalStorage(LOCALSTORAGE_KEYS.KEYWORDS) ||
     defaultStorageValues.KEYWORDS;
 
   const [blurRadius, setBlur] = useLocalStorage(
-    localStorageKeys.BLUR_RADIUS,
+    LOCALSTORAGE_KEYS.BLUR_RADIUS,
     defaultStorageValues.BLUR_RADIUS
   );
 
   const [brightness, setBrightness] = useLocalStorage(
-    localStorageKeys.BRIGHTNESS,
+    LOCALSTORAGE_KEYS.BRIGHTNESS,
     defaultStorageValues.BRIGHTNESS
   );
 
   const [currentImage, setCurrentImage] = useLocalStorage(
-    localStorageKeys.CURRENT_IMAGE,
+    LOCALSTORAGE_KEYS.CURRENT_IMAGE,
     ""
+  );
+
+  const [changeIntervalInMin, setChangeIntervalInSec] = useLocalStorage(
+    LOCALSTORAGE_KEYS.CHANGE_INTERVAL_SEC,
+    defaultStorageValues.CHANGE_INTERVAL_SEC
+  );
+
+  const [crossfadeDuration, setCrossfadeDuration] = useLocalStorage(
+    LOCALSTORAGE_KEYS.CROSSFADE_TIME,
+    defaultStorageValues.CROSSFADE_TIME
   );
 
   const [widgetTop, setWidgetTop] = useState(getRandomInt());
   const [widgetLeft, setWidgetLeft] = useState(getRandomInt());
   const [image, setImage] = useState<UnsplashImage | undefined>(undefined);
 
-  const delayInMilliSecs = 1000 * 60 * 5;
+  const delayInMilliSecs = 1000 * 60 * changeIntervalInMin;
 
   const loadImage = useCallback(async () => {
     const preventScreenBurnIn = () => {
@@ -132,6 +142,7 @@ const App = () => {
             filter:
               "blur(" + blurRadius + "rem) brightness(" + brightness + ")",
           }}
+          durationMillis={crossfadeDuration * 1000}
         />
         <div
           style={{

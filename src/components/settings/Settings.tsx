@@ -6,14 +6,15 @@ import {
   Drawer,
   FormControlLabel,
   FormGroup,
+  InputAdornment,
   Slider,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
-import { FunctionComponent } from "react";
+import { ChangeEvent, FocusEvent, FunctionComponent, useState } from "react";
 import { useLocalStorage } from "usehooks-ts";
-import { defaultStorageValues, localStorageKeys } from "../../app/storage";
+import { defaultStorageValues, LOCALSTORAGE_KEYS } from "../../app/storage";
 
 type SettingsProps = {
   open: boolean;
@@ -24,31 +25,65 @@ type SettingsProps = {
 
 const Settings: FunctionComponent<SettingsProps> = (props) => {
   const [keywordsStore, setKeywordsStore] = useLocalStorage(
-    localStorageKeys.KEYWORDS,
+    LOCALSTORAGE_KEYS.KEYWORDS,
     defaultStorageValues.KEYWORDS
   );
   const [blurStore, setBlurStore] = useLocalStorage(
-    localStorageKeys.BLUR_RADIUS,
+    LOCALSTORAGE_KEYS.BLUR_RADIUS,
     defaultStorageValues.BLUR_RADIUS
   );
 
   const [brightnessStore, setBrightnessStore] = useLocalStorage(
-    localStorageKeys.BRIGHTNESS,
+    LOCALSTORAGE_KEYS.BRIGHTNESS,
     defaultStorageValues.BRIGHTNESS
+  );
+
+  const [changeInterval, setChangeInterval] = useLocalStorage(
+    LOCALSTORAGE_KEYS.CHANGE_INTERVAL_SEC,
+    defaultStorageValues.CHANGE_INTERVAL_SEC
+  );
+
+  const [intervalValue, setIntervalValue] = useState<string | number>(
+    changeInterval
+  );
+
+  const [crossfadeInSec, setCrossfadeInSec] = useLocalStorage(
+    LOCALSTORAGE_KEYS.CROSSFADE_TIME,
+    defaultStorageValues.CROSSFADE_TIME
   );
 
   const idKeywords = "idKeywords";
   const idBlur = "idBlur";
   const idBrightness = "idBrightness";
+  const idIntervalTime = "idIntervalTime";
+  const idCrossfadeTime = "idCrossfadeTime";
 
   const handleClose = () => {
     props.onClose && props.onClose("", "escapeKeyDown");
   };
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const ensureNumber = (value: string): number => {
+    const numberValue = Number.parseInt(value.replace(/\D/g, ""));
+    return Number.isNaN(numberValue) ? 0 : numberValue;
+  };
+
+  const handleChange = (
+    event:
+      | ChangeEvent<HTMLInputElement>
+      | FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>
+  ) => {
     switch (event.target.id) {
       case idKeywords:
         setKeywordsStore(event.target.value);
+        break;
+      case idIntervalTime:
+        const onlyNumbers = ensureNumber(event.currentTarget.value);
+        const ensure5MinutesOrGreater = onlyNumbers > 5 ? onlyNumbers : 5;
+        setChangeInterval(ensure5MinutesOrGreater);
+        setIntervalValue(ensure5MinutesOrGreater);
+        break;
+      case idCrossfadeTime:
+        setCrossfadeInSec(ensureNumber(event.currentTarget.value));
         break;
     }
   };
@@ -132,6 +167,38 @@ const Settings: FunctionComponent<SettingsProps> = (props) => {
                 />
               }
               label="Blur"
+            />
+          </Stack>
+          <Divider />
+          <Stack spacing={2} paddingLeft={4} paddingRight={4}>
+            <Typography variant="body1">Timings</Typography>
+            <TextField
+              fullWidth
+              label="Change interval (5 minutes or greater)"
+              id={idIntervalTime}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">min</InputAdornment>
+                ),
+              }}
+              inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+              value={intervalValue}
+              defaultValue={changeInterval}
+              onChange={(e) => setIntervalValue(e.currentTarget.value)}
+              onBlur={handleChange}
+            />
+            <TextField
+              fullWidth
+              label="Crossfade time"
+              id={idCrossfadeTime}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">sec</InputAdornment>
+                ),
+              }}
+              inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
+              defaultValue={crossfadeInSec}
+              onChange={handleChange}
             />
           </Stack>
         </FormGroup>

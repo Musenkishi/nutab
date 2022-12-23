@@ -3,7 +3,7 @@ import { FunctionComponent, useEffect, useState } from "react";
 
 type CrossfadeImageProps = {
   src: string;
-  duration?: number;
+  durationMillis?: number;
   delay?: number;
   parentStyle?: any;
   style?: any;
@@ -59,7 +59,7 @@ const CrossfadeImage: FunctionComponent<CrossfadeImageProps> = (props) => {
         onLoad={handleOnLoadA}
         alt=""
       />
-      <Fade in={showB} timeout={!!srcA ? 2000 : 500}>
+      <Fade in={showB} timeout={!!srcA ? props.durationMillis || 2000 : 500}>
         <img
           style={{
             ...defaultStyle,
