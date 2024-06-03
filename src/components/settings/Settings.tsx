@@ -98,7 +98,7 @@ const Settings: FunctionComponent<SettingsProps> = (props) => {
 
   const valueLabelFormat = (value: number) => {
     //Convert decimal to percent
-    return value * 100 + " %";
+    return Math.round(value * 100) + " %";
   };
 
   const handleSliderChange = (event: any, newValue: number | number[]) => {
@@ -165,7 +165,7 @@ const Settings: FunctionComponent<SettingsProps> = (props) => {
                   step={0.1}
                   marks
                   min={0.0}
-                  max={1.0}
+                  max={2.0}
                   valueLabelDisplay="auto"
                   valueLabelFormat={valueLabelFormat}
                   onChange={handleSliderChange}
