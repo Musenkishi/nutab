@@ -1,14 +1,14 @@
-import { Box, Stack, SvgIcon, ThemeProvider, Typography } from "@mui/material";
-import React, { useCallback, useEffect, useState } from "react";
+import { Box, Stack, SvgIcon, ThemeProvider, Typography, createTheme } from "@mui/material";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Clock from "react-live-clock";
-import { useLocalStorage, useReadLocalStorage } from "usehooks-ts";
+import { useLocalStorage, useMediaQuery, useReadLocalStorage } from "usehooks-ts";
 import getImage from "./Api";
 import "./App.css";
-import { defaultStorageValues, LOCALSTORAGE_KEYS } from "./app/storage";
+import { LOCALSTORAGE_KEYS, defaultStorageValues } from "./app/storage";
 import CrossfadeImage from "./components/crossfade/CrossfadeImage";
 import NuLink from "./components/link/NuLink";
 import Toolbar from "./components/toolbar/Toolbar";
-import theme from "./theme/theme";
+import { ThemeMode } from "./types/ThemeMode";
 import { DatedUnsplashImage, UnsplashImage } from "./types/Unsplash";
 
 const App = () => {
@@ -24,6 +24,8 @@ const App = () => {
     const max = Math.floor(pixels);
     return Math.floor(Math.random() * (max - min) + min);
   };
+
+  const themeMode: ThemeMode = useReadLocalStorage(LOCALSTORAGE_KEYS.MODE) || defaultStorageValues.MODE
 
   const keywords =
     useReadLocalStorage(LOCALSTORAGE_KEYS.KEYWORDS) ||
@@ -112,6 +114,24 @@ const App = () => {
       }
     }
   }, [currentImage, delayInMilliSecs, image, loadImage]);
+
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+
+  const theme = useMemo(
+    () => 
+      createTheme({
+        palette: {
+          mode: themeMode === 'auto' ? (prefersDarkMode ? 'dark' : 'light') : themeMode,
+        },
+        typography: {
+          fontFamily: "Nunito",
+          h1: {
+            fontSize: "9rem",
+          },
+        },
+      }),
+      [themeMode, prefersDarkMode],
+  )
 
   return (
     <ThemeProvider theme={theme}>

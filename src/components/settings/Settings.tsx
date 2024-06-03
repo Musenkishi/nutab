@@ -10,20 +10,27 @@ import {
   Slider,
   Stack,
   TextField,
-  Typography,
+  Typography
 } from "@mui/material";
 import { ChangeEvent, FocusEvent, FunctionComponent, useState } from "react";
 import { useLocalStorage } from "usehooks-ts";
-import { defaultStorageValues, LOCALSTORAGE_KEYS } from "../../app/storage";
+import { LOCALSTORAGE_KEYS, defaultStorageValues } from "../../app/storage";
+import ModeButton from "./ModeButton";
 
 type SettingsProps = {
   open: boolean;
   onClose?:
-    | ((event: {}, reason: "backdropClick" | "escapeKeyDown") => void)
-    | undefined;
+  | ((event: {}, reason: "backdropClick" | "escapeKeyDown") => void)
+  | undefined;
 };
 
 const Settings: FunctionComponent<SettingsProps> = (props) => {
+
+  const [modeStore, setModeStore] = useLocalStorage(
+    LOCALSTORAGE_KEYS.MODE,
+    defaultStorageValues.MODE
+  )
+
   const [keywordsStore, setKeywordsStore] = useLocalStorage(
     LOCALSTORAGE_KEYS.KEYWORDS,
     defaultStorageValues.KEYWORDS
@@ -52,6 +59,7 @@ const Settings: FunctionComponent<SettingsProps> = (props) => {
     defaultStorageValues.CROSSFADE_TIME
   );
 
+  const idMode = "idMode"
   const idKeywords = "idKeywords";
   const idBlur = "idBlur";
   const idBrightness = "idBrightness";
@@ -112,7 +120,21 @@ const Settings: FunctionComponent<SettingsProps> = (props) => {
       open={props.open}
       onClose={props.onClose}
     >
-      <DialogTitle>Settings</DialogTitle>
+      <DialogTitle
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between'
+        }}
+      >
+        Settings
+        <ModeButton
+          mode={modeStore}
+          onChange={(newMode) => {
+            setModeStore(newMode)
+          }}
+        />
+      </DialogTitle>
       <DialogContent dividers>
         <FormGroup sx={{ gap: 2 }}>
           <DialogContentText>
@@ -174,7 +196,7 @@ const Settings: FunctionComponent<SettingsProps> = (props) => {
             <Typography variant="body1">Timings</Typography>
             <TextField
               fullWidth
-              label="Change interval (5 minutes or greater)"
+              label="Change interval (5 minutes or more)"
               id={idIntervalTime}
               InputProps={{
                 endAdornment: (
