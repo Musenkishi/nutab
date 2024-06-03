@@ -139,8 +139,6 @@ const App = () => {
             flexGrow: 2,
             width: "100%",
             height: "100%",
-            filter:
-              "blur(" + blurRadius + "rem) brightness(" + brightness + ")",
           }}
           durationMillis={crossfadeDuration * 1000}
         />
@@ -152,6 +150,7 @@ const App = () => {
             width: "100%",
             height: "100%",
             boxShadow: "inset 0 0 0rem #000",
+            backdropFilter: `blur(${blurRadius}rem) brightness(${brightness})`,
           }}
         />
         <Box
