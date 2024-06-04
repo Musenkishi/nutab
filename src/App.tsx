@@ -165,7 +165,7 @@ const App = () => {
         sx={{
           overflow: "hidden",
           backgroundColor: "background.default",
-          color: "primary.contrastText",
+          color: "primary.main",
           position: "absolute",
           top: 0,
           left: 0,
