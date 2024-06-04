@@ -15,6 +15,7 @@ import {
 import { ChangeEvent, FocusEvent, FunctionComponent, useState } from "react"
 import { useLocalStorage } from "usehooks-ts"
 import { LOCALSTORAGE_KEYS, defaultStorageValues } from "../../app/storage"
+import FontSelect from "./FontSelect"
 import ModeButton from "./ModeButton"
 
 type SettingsProps = {
@@ -56,6 +57,11 @@ const Settings: FunctionComponent<SettingsProps> = (props) => {
   const [crossfadeInSec, setCrossfadeInSec] = useLocalStorage(
     LOCALSTORAGE_KEYS.CROSSFADE_TIME,
     defaultStorageValues.CROSSFADE_TIME
+  )
+
+  const [font, setFont] = useLocalStorage(
+    LOCALSTORAGE_KEYS.FONT,
+    defaultStorageValues.FONT
   )
 
   const idKeywords = "idKeywords"
@@ -220,6 +226,11 @@ const Settings: FunctionComponent<SettingsProps> = (props) => {
               defaultValue={crossfadeInSec}
               onChange={handleChange}
             />
+          </Stack>
+          <Divider />
+          <Stack spacing={2} paddingLeft={4} paddingRight={4}>
+            <Typography variant="body1">Select a Font</Typography>
+            <FontSelect value={font} onChange={setFont} />
           </Stack>
         </FormGroup>
       </DialogContent>

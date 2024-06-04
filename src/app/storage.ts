@@ -1,3 +1,4 @@
+import { Font } from "../fonts"
 import { ThemeMode } from "../types/ThemeMode"
 
 export type LocalStorageTypes = {
@@ -9,6 +10,7 @@ export type LocalStorageTypes = {
   MODE: ThemeMode
   IMAGES?: JSON
   CURRENT_IMAGE?: string
+  FONT: Font
 }
 
 export enum LOCALSTORAGE_KEYS {
@@ -20,6 +22,7 @@ export enum LOCALSTORAGE_KEYS {
   CHANGE_INTERVAL_SEC = "NuTabChangeInterval",
   CROSSFADE_TIME = "NuTabCrossfadeTime",
   MODE = "NuTabMode",
+  FONT = "NuTabFont",
 }
 
 export const defaultStorageValues: LocalStorageTypes = {
@@ -29,4 +32,5 @@ export const defaultStorageValues: LocalStorageTypes = {
   CHANGE_INTERVAL_SEC: 300,
   CROSSFADE_TIME: 2,
   MODE: "auto",
+  FONT: Font.Nunito,
 }

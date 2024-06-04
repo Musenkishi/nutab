@@ -1,10 +1,10 @@
 import {
   Box,
+  createTheme,
   Stack,
   SvgIcon,
   ThemeProvider,
   Typography,
-  createTheme,
 } from "@mui/material"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import Clock from "react-live-clock"
@@ -14,11 +14,11 @@ import {
   useReadLocalStorage,
 } from "usehooks-ts"
 import getImage from "./Api"
-import "./App.css"
-import { LOCALSTORAGE_KEYS, defaultStorageValues } from "./app/storage"
+import { defaultStorageValues, LOCALSTORAGE_KEYS } from "./app/storage"
 import CrossfadeImage from "./components/crossfade/CrossfadeImage"
 import NuLink from "./components/link/NuLink"
 import Toolbar from "./components/toolbar/Toolbar"
+import { Font } from "./fonts"
 import { MD3Theme } from "./theme/md3Theme"
 import { generateMD3Theme, md3ToMuiPalette } from "./theme/themeGenerator"
 import { ThemeMode } from "./types/ThemeMode"
@@ -44,6 +44,9 @@ const App = () => {
   const keywords =
     useReadLocalStorage(LOCALSTORAGE_KEYS.KEYWORDS) ||
     defaultStorageValues.KEYWORDS
+
+  const font: Font =
+    useReadLocalStorage(LOCALSTORAGE_KEYS.FONT) ?? defaultStorageValues.FONT
 
   const [blurRadius, setBlur] = useLocalStorage(
     LOCALSTORAGE_KEYS.BLUR_RADIUS,
@@ -150,13 +153,13 @@ const App = () => {
           mode: preferedMode,
         },
         typography: {
-          fontFamily: "Nunito",
+          fontFamily: font,
           h1: {
             fontSize: "9rem",
           },
         },
       }),
-    [themeMode, prefersDarkMode, md3Theme]
+    [themeMode, prefersDarkMode, md3Theme, font]
   )
 
   return (

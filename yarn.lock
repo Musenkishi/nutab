@@ -1328,6 +1328,41 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
+"@fontsource/concert-one@^5.0.20":
+  version "5.0.20"
+  resolved "https://registry.yarnpkg.com/@fontsource/concert-one/-/concert-one-5.0.20.tgz#d029794de121a79b6268f0199178130b551f41f7"
+  integrity sha512-HsnWozowlpVMidCyoq+DhVDZz70fAlSviKDfNERM1SsPzQforxWZp+5KmDI4d1yrh8pejQ4nTBKTK49x68wubQ==
+
+"@fontsource/luckiest-guy@^5.0.19":
+  version "5.0.19"
+  resolved "https://registry.yarnpkg.com/@fontsource/luckiest-guy/-/luckiest-guy-5.0.19.tgz#65ce6caa576d3723ee8b5dc5b36fa13a0e08086e"
+  integrity sha512-d7GeB7lZm2jp3NKm95l5uIDyutt3vOYzu6tkDfwpvi6UDR3NbyUe8UR30sF6O9LXf4qGAHvquyNVw/FfhLpF5g==
+
+"@fontsource/montserrat@^5.0.18":
+  version "5.0.18"
+  resolved "https://registry.yarnpkg.com/@fontsource/montserrat/-/montserrat-5.0.18.tgz#eecb91b0f0062787a0eee5622988ed21f2899a90"
+  integrity sha512-85JBs2rCdFK/VBdSb401e2lXk5gynVo2zi3Rh2Guem4WNtT2q52+V90o3KzjmajY3TPJvCZA/kI7R05ev7148g==
+
+"@fontsource/nunito@^5.0.18":
+  version "5.0.18"
+  resolved "https://registry.yarnpkg.com/@fontsource/nunito/-/nunito-5.0.18.tgz#a5b2e306d4ac33e3b61c125a15554a282c430ee5"
+  integrity sha512-B7BS7ab43z5x9X6shdvwtHiYI73Y6kJvnHBJhoIdbqYbVGRf6kGMRfipH9dbmLsjL6elfxoAB3q75V23/qqE/g==
+
+"@fontsource/orbitron@^5.0.19":
+  version "5.0.19"
+  resolved "https://registry.yarnpkg.com/@fontsource/orbitron/-/orbitron-5.0.19.tgz#d4664a4746ddaa35ae72453ab870b8a96875a6fd"
+  integrity sha512-Lr/v3Zq/9Q7gAU+XFH9AEExqhCwTKYvJZsBN7wvVk1Tkl0M0fIbW7qh5Bk4b5rrTqT93hj+gsbd64NBdVTZKuw==
+
+"@fontsource/poiret-one@^5.0.20":
+  version "5.0.20"
+  resolved "https://registry.yarnpkg.com/@fontsource/poiret-one/-/poiret-one-5.0.20.tgz#198454e9afd463f4f99613701192b36b448662ce"
+  integrity sha512-AgW7cSUlRJ4dLrspA4gkNfIi7Q0YUpSh+6cwlBhDWsPb12/JtPnlRZY5KUIf9plw7uwWibJpEiofR/5Vh4XXZw==
+
+"@fontsource/titan-one@^5.0.20":
+  version "5.0.20"
+  resolved "https://registry.yarnpkg.com/@fontsource/titan-one/-/titan-one-5.0.20.tgz#6146511b5222370741a9bfccf69ee81981d02106"
+  integrity sha512-4Y/ZNtUuNZ8rlWfS9ZvZU4Zy1JjqtJDmub2jlC5gyQ3Ln4qMuCZs2z5l+TuhvVhrVqMEvMYgGSTUEYtR6QzWqg==
+
 "@humanwhocodes/config-array@^0.11.8":
   version "0.11.8"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.11.8.tgz#03595ac2075a4dc0f191cc2131de14fbd7d410b9"

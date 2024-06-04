@@ -8,6 +8,13 @@
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
+    "@fontsource/concert-one": "^5.0.20",
+    "@fontsource/luckiest-guy": "^5.0.19",
+    "@fontsource/montserrat": "^5.0.18",
+    "@fontsource/nunito": "^5.0.18",
+    "@fontsource/orbitron": "^5.0.19",
+    "@fontsource/poiret-one": "^5.0.20",
+    "@fontsource/titan-one": "^5.0.20",
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.1",
     "@reduxjs/toolkit": "^1.7.1",
