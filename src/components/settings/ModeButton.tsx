@@ -1,8 +1,8 @@
 import AutoModeIcon from '@mui/icons-material/AutoMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import LightModeIcon from '@mui/icons-material/LightMode';
-import { IconButton } from "@mui/material";
 import { ThemeMode } from "../../types/ThemeMode";
+import TooltipIconButton from './TooltipIconButton';
 
 type ModeButtonProps = {
     mode: ThemeMode;
@@ -27,9 +27,11 @@ const ModeButton: React.FC<ModeButtonProps> = ({ mode, onChange }) => {
     };
 
     return (
-        <IconButton onClick={handleToggleMode}>
-            {renderIcon(mode)}
-        </IconButton>
+        <TooltipIconButton
+            tooltipTitle={mode}
+            icon={renderIcon(mode)}
+            onClick={handleToggleMode}
+        />
     );
 };
 

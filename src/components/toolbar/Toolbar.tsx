@@ -5,6 +5,7 @@ import SkipNextIcon from "@mui/icons-material/SkipNext";
 import { IconButton, Stack, StackTypeMap, Tooltip } from "@mui/material";
 import React, { forwardRef, useState } from "react";
 import Settings from "../settings/Settings";
+import TooltipIconButton from "../settings/TooltipIconButton";
 
 type Props = {
   zIndex: number;
@@ -44,23 +45,23 @@ const Toolbar = forwardRef<StackTypeMap, Props>((props, ref) => {
         },
       }}
     >
-      <Tooltip title="Change image">
-        <IconButton onClick={props.changeImage}>
-          <SkipNextIcon />
-        </IconButton>
-      </Tooltip>
+      <TooltipIconButton
+        tooltipTitle="Change image"
+        icon={<SkipNextIcon />}
+        onClick={props.changeImage}
+      />
       {document.fullscreenEnabled && (
-        <Tooltip title="Toggle fullscreen">
-          <IconButton onClick={toggleFullscreen}>
-            {isFullscreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
-          </IconButton>
-        </Tooltip>
+        <TooltipIconButton
+          tooltipTitle="Toggle fullscreen"
+          icon={isFullscreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
+          onClick={toggleFullscreen}
+        />
       )}
-      <Tooltip title="Settings">
-        <IconButton onClick={() => setSettingsDialogOpen(true)}>
-          <SettingsIcon />
-        </IconButton>
-      </Tooltip>
+      <TooltipIconButton
+        tooltipTitle="Settings"
+        icon={<SettingsIcon />}
+        onClick={() => setSettingsDialogOpen(true)}
+      />
       <Settings
         open={settingsDialogOpen}
         onClose={() => setSettingsDialogOpen(false)}

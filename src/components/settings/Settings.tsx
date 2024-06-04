@@ -59,7 +59,6 @@ const Settings: FunctionComponent<SettingsProps> = (props) => {
     defaultStorageValues.CROSSFADE_TIME
   );
 
-  const idMode = "idMode"
   const idKeywords = "idKeywords";
   const idBlur = "idBlur";
   const idBrightness = "idBrightness";
