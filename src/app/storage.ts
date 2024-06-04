@@ -1,15 +1,15 @@
-import { ThemeMode } from "../types/ThemeMode";
+import { ThemeMode } from "../types/ThemeMode"
 
 export type LocalStorageTypes = {
-  KEYWORDS: string;
-  BLUR_RADIUS: number;
-  BRIGHTNESS: number;
-  CHANGE_INTERVAL_SEC: number;
-  CROSSFADE_TIME: number;
+  KEYWORDS: string
+  BLUR_RADIUS: number
+  BRIGHTNESS: number
+  CHANGE_INTERVAL_SEC: number
+  CROSSFADE_TIME: number
   MODE: ThemeMode
-  IMAGES?: JSON;
-  CURRENT_IMAGE?: string;
-};
+  IMAGES?: JSON
+  CURRENT_IMAGE?: string
+}
 
 export enum LOCALSTORAGE_KEYS {
   KEYWORDS = "NuTabKeyWords",
@@ -19,7 +19,7 @@ export enum LOCALSTORAGE_KEYS {
   CURRENT_IMAGE = "NuTabCurrentImage",
   CHANGE_INTERVAL_SEC = "NuTabChangeInterval",
   CROSSFADE_TIME = "NuTabCrossfadeTime",
-  MODE = "NuTabMode"
+  MODE = "NuTabMode",
 }
 
 export const defaultStorageValues: LocalStorageTypes = {
@@ -29,4 +29,4 @@ export const defaultStorageValues: LocalStorageTypes = {
   CHANGE_INTERVAL_SEC: 300,
   CROSSFADE_TIME: 2,
   MODE: "auto",
-};
+}

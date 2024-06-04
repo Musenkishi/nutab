@@ -1,45 +1,45 @@
-import { Fade } from "@mui/material";
-import { FunctionComponent, useEffect, useState } from "react";
+import { Fade } from "@mui/material"
+import { FunctionComponent, useEffect, useState } from "react"
 
 type CrossfadeImageProps = {
-  src: string;
-  durationMillis?: number;
-  delay?: number;
-  parentStyle?: any;
-  style?: any;
-};
+  src: string
+  durationMillis?: number
+  delay?: number
+  parentStyle?: any
+  style?: any
+}
 
-const defaultStyle = { maxWidth: "100%", maxHeight: "100%" };
+const defaultStyle = { maxWidth: "100%", maxHeight: "100%" }
 
 const CrossfadeImage: FunctionComponent<CrossfadeImageProps> = (props) => {
-  const [srcA, setSrcA] = useState<string>("");
-  const [srcB, setSrcB] = useState<string>("");
-  const [oldSrc, setOldSrc] = useState<string>("");
-  const [showB, setShowB] = useState<boolean>(false);
+  const [srcA, setSrcA] = useState<string>("")
+  const [srcB, setSrcB] = useState<string>("")
+  const [oldSrc, setOldSrc] = useState<string>("")
+  const [showB, setShowB] = useState<boolean>(false)
 
   const handleOnLoadA = () => {
-    setShowB(false);
-    setOldSrc(srcB);
-  };
+    setShowB(false)
+    setOldSrc(srcB)
+  }
 
   const handleOnLoadB = () => {
-    setShowB(true);
-    setOldSrc(srcA);
-  };
+    setShowB(true)
+    setOldSrc(srcA)
+  }
 
   useEffect(() => {
-    const newSrc = props.src;
+    const newSrc = props.src
     if (newSrc && newSrc !== oldSrc) {
-      const firstTime = !srcA && !srcB && !oldSrc;
+      const firstTime = !srcA && !srcB && !oldSrc
       if (firstTime) {
-        setSrcB(newSrc);
+        setSrcB(newSrc)
       } else if (oldSrc === srcA) {
-        setSrcA(newSrc);
+        setSrcA(newSrc)
       } else {
-        setSrcB(newSrc);
+        setSrcB(newSrc)
       }
     }
-  }, [props.src]); //Do not include all dependencies, will cause unwanted re-render
+  }, [props.src]) //Do not include all dependencies, will cause unwanted re-render
 
   return (
     <div
@@ -72,7 +72,7 @@ const CrossfadeImage: FunctionComponent<CrossfadeImageProps> = (props) => {
         />
       </Fade>
     </div>
-  );
-};
+  )
+}
 
-export default CrossfadeImage;
+export default CrossfadeImage

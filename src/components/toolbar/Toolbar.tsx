@@ -1,31 +1,31 @@
-import FullscreenIcon from "@mui/icons-material/Fullscreen";
-import FullscreenExitIcon from "@mui/icons-material/FullscreenExit";
-import SettingsIcon from "@mui/icons-material/Settings";
-import SkipNextIcon from "@mui/icons-material/SkipNext";
-import { IconButton, Stack, StackTypeMap, Tooltip } from "@mui/material";
-import React, { forwardRef, useState } from "react";
-import Settings from "../settings/Settings";
-import TooltipIconButton from "../settings/TooltipIconButton";
+import FullscreenIcon from "@mui/icons-material/Fullscreen"
+import FullscreenExitIcon from "@mui/icons-material/FullscreenExit"
+import SettingsIcon from "@mui/icons-material/Settings"
+import SkipNextIcon from "@mui/icons-material/SkipNext"
+import { IconButton, Stack, StackTypeMap, Tooltip } from "@mui/material"
+import React, { forwardRef, useState } from "react"
+import Settings from "../settings/Settings"
+import TooltipIconButton from "../settings/TooltipIconButton"
 
 type Props = {
-  zIndex: number;
-  changeImage: () => void;
-};
+  zIndex: number
+  changeImage: () => void
+}
 
 const Toolbar = forwardRef<StackTypeMap, Props>((props, ref) => {
-  const [isFullscreen, setIsFullscreen] = useState(false);
-  const [settingsDialogOpen, setSettingsDialogOpen] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false)
+  const [settingsDialogOpen, setSettingsDialogOpen] = useState(false)
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen();
-      setIsFullscreen(true);
+      document.documentElement.requestFullscreen()
+      setIsFullscreen(true)
     } else {
       if (document.exitFullscreen) {
-        document.exitFullscreen();
-        setIsFullscreen(false);
+        document.exitFullscreen()
+        setIsFullscreen(false)
       }
     }
-  };
+  }
 
   return (
     <Stack
@@ -67,7 +67,7 @@ const Toolbar = forwardRef<StackTypeMap, Props>((props, ref) => {
         onClose={() => setSettingsDialogOpen(false)}
       />
     </Stack>
-  );
-});
+  )
+})
 
-export default Toolbar;
+export default Toolbar

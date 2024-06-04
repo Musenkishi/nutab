@@ -10,22 +10,21 @@ import {
   Slider,
   Stack,
   TextField,
-  Typography
-} from "@mui/material";
-import { ChangeEvent, FocusEvent, FunctionComponent, useState } from "react";
-import { useLocalStorage } from "usehooks-ts";
-import { LOCALSTORAGE_KEYS, defaultStorageValues } from "../../app/storage";
-import ModeButton from "./ModeButton";
+  Typography,
+} from "@mui/material"
+import { ChangeEvent, FocusEvent, FunctionComponent, useState } from "react"
+import { useLocalStorage } from "usehooks-ts"
+import { LOCALSTORAGE_KEYS, defaultStorageValues } from "../../app/storage"
+import ModeButton from "./ModeButton"
 
 type SettingsProps = {
-  open: boolean;
+  open: boolean
   onClose?:
-  | ((event: {}, reason: "backdropClick" | "escapeKeyDown") => void)
-  | undefined;
-};
+    | ((event: {}, reason: "backdropClick" | "escapeKeyDown") => void)
+    | undefined
+}
 
 const Settings: FunctionComponent<SettingsProps> = (props) => {
-
   const [modeStore, setModeStore] = useLocalStorage(
     LOCALSTORAGE_KEYS.MODE,
     defaultStorageValues.MODE
@@ -34,45 +33,45 @@ const Settings: FunctionComponent<SettingsProps> = (props) => {
   const [keywordsStore, setKeywordsStore] = useLocalStorage(
     LOCALSTORAGE_KEYS.KEYWORDS,
     defaultStorageValues.KEYWORDS
-  );
+  )
   const [blurStore, setBlurStore] = useLocalStorage(
     LOCALSTORAGE_KEYS.BLUR_RADIUS,
     defaultStorageValues.BLUR_RADIUS
-  );
+  )
 
   const [brightnessStore, setBrightnessStore] = useLocalStorage(
     LOCALSTORAGE_KEYS.BRIGHTNESS,
     defaultStorageValues.BRIGHTNESS
-  );
+  )
 
   const [changeInterval, setChangeInterval] = useLocalStorage(
     LOCALSTORAGE_KEYS.CHANGE_INTERVAL_SEC,
     defaultStorageValues.CHANGE_INTERVAL_SEC
-  );
+  )
 
   const [intervalValue, setIntervalValue] = useState<string | number>(
     changeInterval
-  );
+  )
 
   const [crossfadeInSec, setCrossfadeInSec] = useLocalStorage(
     LOCALSTORAGE_KEYS.CROSSFADE_TIME,
     defaultStorageValues.CROSSFADE_TIME
-  );
+  )
 
-  const idKeywords = "idKeywords";
-  const idBlur = "idBlur";
-  const idBrightness = "idBrightness";
-  const idIntervalTime = "idIntervalTime";
-  const idCrossfadeTime = "idCrossfadeTime";
+  const idKeywords = "idKeywords"
+  const idBlur = "idBlur"
+  const idBrightness = "idBrightness"
+  const idIntervalTime = "idIntervalTime"
+  const idCrossfadeTime = "idCrossfadeTime"
 
   const handleClose = () => {
-    props.onClose && props.onClose("", "escapeKeyDown");
-  };
+    props.onClose && props.onClose("", "escapeKeyDown")
+  }
 
   const ensureNumber = (value: string): number => {
-    const numberValue = Number.parseInt(value.replace(/\D/g, ""));
-    return Number.isNaN(numberValue) ? 0 : numberValue;
-  };
+    const numberValue = Number.parseInt(value.replace(/\D/g, ""))
+    return Number.isNaN(numberValue) ? 0 : numberValue
+  }
 
   const handleChange = (
     event:
@@ -81,36 +80,36 @@ const Settings: FunctionComponent<SettingsProps> = (props) => {
   ) => {
     switch (event.target.id) {
       case idKeywords:
-        setKeywordsStore(event.target.value);
-        break;
+        setKeywordsStore(event.target.value)
+        break
       case idIntervalTime:
-        const onlyNumbers = ensureNumber(event.currentTarget.value);
-        const ensure5MinutesOrGreater = onlyNumbers > 5 ? onlyNumbers : 5;
-        setChangeInterval(ensure5MinutesOrGreater);
-        setIntervalValue(ensure5MinutesOrGreater);
-        break;
+        const onlyNumbers = ensureNumber(event.currentTarget.value)
+        const ensure5MinutesOrGreater = onlyNumbers > 5 ? onlyNumbers : 5
+        setChangeInterval(ensure5MinutesOrGreater)
+        setIntervalValue(ensure5MinutesOrGreater)
+        break
       case idCrossfadeTime:
-        setCrossfadeInSec(ensureNumber(event.currentTarget.value));
-        break;
+        setCrossfadeInSec(ensureNumber(event.currentTarget.value))
+        break
     }
-  };
+  }
 
   const valueLabelFormat = (value: number) => {
     //Convert decimal to percent
-    return Math.round(value * 100) + " %";
-  };
+    return Math.round(value * 100) + " %"
+  }
 
   const handleSliderChange = (event: any, newValue: number | number[]) => {
-    const value = newValue as number;
+    const value = newValue as number
     switch (event.target.name) {
       case idBlur:
-        setBlurStore(value);
-        break;
+        setBlurStore(value)
+        break
       case idBrightness:
-        setBrightnessStore(value);
-        break;
+        setBrightnessStore(value)
+        break
     }
-  };
+  }
 
   return (
     <Drawer
@@ -121,9 +120,9 @@ const Settings: FunctionComponent<SettingsProps> = (props) => {
     >
       <DialogTitle
         sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between'
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
         }}
       >
         Settings
@@ -149,7 +148,7 @@ const Settings: FunctionComponent<SettingsProps> = (props) => {
             onChange={handleChange}
             defaultValue={keywordsStore}
             onKeyPress={(ev) => {
-              if (ev.key === "Enter") handleClose();
+              if (ev.key === "Enter") handleClose()
             }}
           />
           <Divider />
@@ -225,7 +224,7 @@ const Settings: FunctionComponent<SettingsProps> = (props) => {
         </FormGroup>
       </DialogContent>
     </Drawer>
-  );
-};
+  )
+}
 
-export default Settings;
+export default Settings

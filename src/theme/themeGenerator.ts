@@ -53,6 +53,5 @@ export const generateMuiTheme = async (
   const muiTheme = createTheme({
     palette: md3ToMuiPalette(md3Theme, mode),
   })
-
   return muiTheme
 }
