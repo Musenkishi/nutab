@@ -8,6 +8,8 @@ import { LOCALSTORAGE_KEYS, defaultStorageValues } from "./app/storage";
 import CrossfadeImage from "./components/crossfade/CrossfadeImage";
 import NuLink from "./components/link/NuLink";
 import Toolbar from "./components/toolbar/Toolbar";
+import { MD3Theme } from "./theme/md3Theme";
+import { generateMD3Theme, md3ToMuiPalette } from "./theme/themeGenerator";
 import { ThemeMode } from "./types/ThemeMode";
 import { DatedUnsplashImage, UnsplashImage } from "./types/Unsplash";
 
@@ -58,9 +60,21 @@ const App = () => {
 
   const [widgetTop, setWidgetTop] = useState(getRandomInt());
   const [widgetLeft, setWidgetLeft] = useState(getRandomInt());
-  const [image, setImage] = useState<UnsplashImage | undefined>(undefined);
+  const [image, setImage_] = useState<UnsplashImage | undefined>(undefined);
+  const [md3Theme, setMd3Theme] = useState<MD3Theme>()
 
   const delayInMilliSecs = 1000 * 60 * changeIntervalInMin;
+
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  const preferedMode = themeMode === 'auto' ? (prefersDarkMode ? 'dark' : 'light') : themeMode
+
+  const setImage = async (uImage: UnsplashImage | undefined) => {
+    if (!!uImage) {
+      const _md3Theme = await generateMD3Theme(getScreenSizedImageUrl(uImage))
+      setMd3Theme(_md3Theme)
+    }
+    setImage_(uImage)
+  }
 
   const loadImage = useCallback(async () => {
     const preventScreenBurnIn = () => {
@@ -115,13 +129,14 @@ const App = () => {
     }
   }, [currentImage, delayInMilliSecs, image, loadImage]);
 
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+  
 
   const theme = useMemo(
     () => 
       createTheme({
         palette: {
-          mode: themeMode === 'auto' ? (prefersDarkMode ? 'dark' : 'light') : themeMode,
+          ...(md3Theme && md3ToMuiPalette(md3Theme, preferedMode)),
+          mode: preferedMode,
         },
         typography: {
           fontFamily: "Nunito",
@@ -130,7 +145,7 @@ const App = () => {
           },
         },
       }),
-      [themeMode, prefersDarkMode],
+      [themeMode, prefersDarkMode, md3Theme],
   )
 
   return (
@@ -139,7 +154,7 @@ const App = () => {
         sx={{
           overflow: "hidden",
           backgroundColor: "background.default",
-          color: "text.primary",
+          color: "primary.contrastText",
           position: "absolute",
           top: 0,
           left: 0,
