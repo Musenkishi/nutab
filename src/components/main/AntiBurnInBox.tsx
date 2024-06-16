@@ -28,7 +28,7 @@ const AntiBurnInBox: FC<AntiBurnInBoxProps> = ({
     const interval = setInterval(
       updatePosition,
       updateIntervalMinutes * 60 * 1000
-    ) // Every 5 minutes
+    )
     return () => clearInterval(interval)
     // Only run this effect once, on mount
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -36,6 +36,7 @@ const AntiBurnInBox: FC<AntiBurnInBoxProps> = ({
 
   return (
     <Box
+      {...props}
       sx={{
         position: "absolute",
         top: widgetTop,
@@ -46,7 +47,7 @@ const AntiBurnInBox: FC<AntiBurnInBoxProps> = ({
         justifyContent: "center",
         alignItems: "center",
         transition: "2s",
-        ...props,
+        ...props.sx,
       }}
     >
       {children}

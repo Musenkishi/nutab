@@ -2,7 +2,6 @@ import {
   Box,
   createTheme,
   Stack,
-  SvgIcon,
   ThemeProvider,
   Typography,
 } from "@mui/material"
@@ -16,9 +15,10 @@ import {
 import getImage from "./Api"
 import { defaultStorageValues, LOCALSTORAGE_KEYS } from "./app/storage"
 import CrossfadeImage from "./components/crossfade/CrossfadeImage"
-import NuLink from "./components/link/NuLink"
 import AntiBurnInBox from "./components/main/AntiBurnInBox"
 import StyledClock from "./components/main/StyledClock"
+import UnsplashInfo from "./components/main/UnsplashInfo"
+import UnsplashLocation from "./components/main/UnsplashLocation"
 import Toolbar from "./components/toolbar/Toolbar"
 import { Font } from "./fonts"
 import { generateMD3Theme, md3ToMuiPalette } from "./theme/themeGenerator"
@@ -191,69 +191,27 @@ const App = () => {
             color={theme.palette.primary.main}
           />
         </AntiBurnInBox>
-        <Box
-          sx={{
-            position: "absolute",
-            bottom: 0,
-            right: 0,
-            margin: 2,
-            height: "auto",
-            zIndex: zIndexes.text,
-          }}
-        >
-          <Typography variant="subtitle2">
-            {image?.location.title || image?.location.name || ""}
-          </Typography>
-        </Box>
         <Stack
+          width="100%"
           direction="row"
-          gap={1}
+          justifyContent="space-between"
           sx={{
             position: "absolute",
             bottom: 0,
-            left: 0,
-            margin: 2,
-            height: "auto",
-            zIndex: zIndexes.text,
-            opacity: 0.1,
-            transition: "0.3s",
-            "&:hover": {
-              opacity: 1.0,
-            },
           }}
         >
-          <NuLink
-            href="https://unsplash.com"
-            color="inherit"
-            underline="none"
-            variant="subtitle2"
-          >
-            <SvgIcon fontSize="inherit" viewBox="0 0 32 32">
-              <path
-                d="M10 9V0h12v9H10zm12 5h10v18H0V14h10v9h12v-9z"
-                fillRule="nonzero"
-              />
-            </SvgIcon>
-          </NuLink>
-          <NuLink
-            href={image?.links.html}
-            color="inherit"
-            underline="none"
-            variant="subtitle2"
-          >
-            Photo
-          </NuLink>
-          <Typography color="inherit" variant="subtitle2">
-            by
-          </Typography>
-          <NuLink
-            href={image?.user.links.html}
-            color="inherit"
-            underline="none"
-            variant="subtitle2"
-          >
-            {image?.user.name}
-          </NuLink>
+          <UnsplashInfo
+            sx={{ zIndex: zIndexes.text }}
+            imageUrl={image?.links.html}
+            userUrl={image?.user.links.html}
+            username={image?.user.name}
+          />
+          <UnsplashLocation
+            title={image?.location.title || image?.location.name || ""}
+            sx={{
+              zIndex: zIndexes.text,
+            }}
+          />
         </Stack>
         <Toolbar zIndex={zIndexes.toolbar} changeImage={loadImage} />
       </Box>
