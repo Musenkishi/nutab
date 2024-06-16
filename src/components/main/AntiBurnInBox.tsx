@@ -30,9 +30,7 @@ const AntiBurnInBox: FC<AntiBurnInBoxProps> = ({
       updateIntervalMinutes * 60 * 1000
     )
     return () => clearInterval(interval)
-    // Only run this effect once, on mount
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  })
 
   return (
     <Box

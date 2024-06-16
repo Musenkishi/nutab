@@ -5,7 +5,7 @@ export type LocalStorageTypes = {
   KEYWORDS: string
   BLUR_RADIUS: number
   BRIGHTNESS: number
-  CHANGE_INTERVAL_SEC: number
+  CHANGE_INTERVAL_MIN: number
   CROSSFADE_TIME: number
   MODE: ThemeMode
   IMAGES?: JSON
@@ -22,7 +22,7 @@ export enum LOCALSTORAGE_KEYS {
   BRIGHTNESS = "NuTabBrightness",
   IMAGES = "NuTabImages",
   CURRENT_IMAGE = "NuTabCurrentImage",
-  CHANGE_INTERVAL_SEC = "NuTabChangeInterval",
+  CHANGE_INTERVAL_MIN = "NuTabChangeInterval",
   CROSSFADE_TIME = "NuTabCrossfadeTime",
   MODE = "NuTabMode",
   FONT = "NuTabFont",
@@ -33,7 +33,7 @@ export const defaultStorageValues: LocalStorageTypes = {
   KEYWORDS: "green flower macro",
   BLUR_RADIUS: 0.4,
   BRIGHTNESS: 1.0,
-  CHANGE_INTERVAL_SEC: 300,
+  CHANGE_INTERVAL_MIN: 5,
   CROSSFADE_TIME: 2,
   MODE: "auto",
   FONT: Font.Nunito,

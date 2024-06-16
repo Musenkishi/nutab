@@ -14,8 +14,7 @@ import {
   Typography,
 } from "@mui/material"
 import { ChangeEvent, FocusEvent, FunctionComponent, useState } from "react"
-import { useLocalStorage } from "usehooks-ts"
-import { LOCALSTORAGE_KEYS, defaultStorageValues } from "../../app/storage"
+import { useSettingsContext } from "../../context/SettingsContext"
 import FontSelect from "./FontSelect"
 import ModeButton from "./ModeButton"
 
@@ -27,47 +26,27 @@ type SettingsProps = {
 }
 
 const Settings: FunctionComponent<SettingsProps> = (props) => {
-  const [modeStore, setModeStore] = useLocalStorage(
-    LOCALSTORAGE_KEYS.MODE,
-    defaultStorageValues.MODE
-  )
-
-  const [keywordsStore, setKeywordsStore] = useLocalStorage(
-    LOCALSTORAGE_KEYS.KEYWORDS,
-    defaultStorageValues.KEYWORDS
-  )
-  const [blurStore, setBlurStore] = useLocalStorage(
-    LOCALSTORAGE_KEYS.BLUR_RADIUS,
-    defaultStorageValues.BLUR_RADIUS
-  )
-
-  const [brightnessStore, setBrightnessStore] = useLocalStorage(
-    LOCALSTORAGE_KEYS.BRIGHTNESS,
-    defaultStorageValues.BRIGHTNESS
-  )
-
-  const [changeInterval, setChangeInterval] = useLocalStorage(
-    LOCALSTORAGE_KEYS.CHANGE_INTERVAL_SEC,
-    defaultStorageValues.CHANGE_INTERVAL_SEC
-  )
+  const {
+    mode,
+    setMode,
+    keywords,
+    setKeywords,
+    blurRadius,
+    setBlurRadius,
+    brightness,
+    setBrightness,
+    changeIntervalInMin,
+    setChangeIntervalInMin,
+    crossfadeInSec,
+    setCrossfadeInSec,
+    font,
+    setFont,
+    isOutlined,
+    setIsOutlined,
+  } = useSettingsContext()
 
   const [intervalValue, setIntervalValue] = useState<string | number>(
-    changeInterval
-  )
-
-  const [crossfadeInSec, setCrossfadeInSec] = useLocalStorage(
-    LOCALSTORAGE_KEYS.CROSSFADE_TIME,
-    defaultStorageValues.CROSSFADE_TIME
-  )
-
-  const [font, setFont] = useLocalStorage(
-    LOCALSTORAGE_KEYS.FONT,
-    defaultStorageValues.FONT
-  )
-
-  const [isOutlined, setIsOutlined] = useLocalStorage(
-    LOCALSTORAGE_KEYS.OUTLINE,
-    defaultStorageValues.CLOCK.OUTLINE
+    changeIntervalInMin
   )
 
   const idKeywords = "idKeywords"
@@ -94,12 +73,12 @@ const Settings: FunctionComponent<SettingsProps> = (props) => {
   ) => {
     switch (event.target.id) {
       case idKeywords:
-        setKeywordsStore(event.target.value)
+        setKeywords(event.target.value)
         break
       case idIntervalTime:
         const onlyNumbers = ensureNumber(event.currentTarget.value)
         const ensure5MinutesOrGreater = onlyNumbers > 5 ? onlyNumbers : 5
-        setChangeInterval(ensure5MinutesOrGreater)
+        setChangeIntervalInMin(ensure5MinutesOrGreater)
         setIntervalValue(ensure5MinutesOrGreater)
         break
       case idCrossfadeTime:
@@ -120,10 +99,10 @@ const Settings: FunctionComponent<SettingsProps> = (props) => {
     const value = newValue as number
     switch (event.target.name) {
       case idBlur:
-        setBlurStore(value)
+        setBlurRadius(value)
         break
       case idBrightness:
-        setBrightnessStore(value)
+        setBrightness(value)
         break
     }
   }
@@ -144,9 +123,9 @@ const Settings: FunctionComponent<SettingsProps> = (props) => {
       >
         Settings
         <ModeButton
-          mode={modeStore}
+          mode={mode}
           onChange={(newMode) => {
-            setModeStore(newMode)
+            setMode(newMode)
           }}
         />
       </DialogTitle>
@@ -163,7 +142,7 @@ const Settings: FunctionComponent<SettingsProps> = (props) => {
             type="search"
             fullWidth
             onChange={handleChange}
-            defaultValue={keywordsStore}
+            defaultValue={keywords}
             onKeyPress={(ev) => {
               if (ev.key === "Enter") handleClose()
             }}
@@ -176,7 +155,7 @@ const Settings: FunctionComponent<SettingsProps> = (props) => {
               control={
                 <Slider
                   name={idBrightness}
-                  value={brightnessStore}
+                  value={brightness}
                   step={0.1}
                   marks
                   min={0.0}
@@ -193,7 +172,7 @@ const Settings: FunctionComponent<SettingsProps> = (props) => {
               control={
                 <Slider
                   name={idBlur}
-                  value={blurStore}
+                  value={blurRadius}
                   step={0.1}
                   marks
                   min={0.0}
@@ -220,7 +199,7 @@ const Settings: FunctionComponent<SettingsProps> = (props) => {
               }}
               inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
               value={intervalValue}
-              defaultValue={changeInterval}
+              defaultValue={changeIntervalInMin}
               onChange={(e) => setIntervalValue(e.currentTarget.value)}
               onBlur={handleChange}
             />
