@@ -6,6 +6,7 @@ import {
   ThemeProvider,
   Typography,
 } from "@mui/material"
+import { Theme } from "md3-theme-generator"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import Clock from "react-live-clock"
 import {
@@ -19,7 +20,6 @@ import CrossfadeImage from "./components/crossfade/CrossfadeImage"
 import NuLink from "./components/link/NuLink"
 import Toolbar from "./components/toolbar/Toolbar"
 import { Font } from "./fonts"
-import { MD3Theme } from "./theme/md3Theme"
 import { generateMD3Theme, md3ToMuiPalette } from "./theme/themeGenerator"
 import { ThemeMode } from "./types/ThemeMode"
 import { DatedUnsplashImage, UnsplashImage } from "./types/Unsplash"
@@ -47,6 +47,10 @@ const App = () => {
 
   const font: Font =
     useReadLocalStorage(LOCALSTORAGE_KEYS.FONT) ?? defaultStorageValues.FONT
+
+  const isOutlined: boolean =
+    useReadLocalStorage(LOCALSTORAGE_KEYS.OUTLINE) ??
+    defaultStorageValues.CLOCK.OUTLINE
 
   const [blurRadius, setBlur] = useLocalStorage(
     LOCALSTORAGE_KEYS.BLUR_RADIUS,
@@ -76,7 +80,7 @@ const App = () => {
   const [widgetTop, setWidgetTop] = useState(getRandomInt())
   const [widgetLeft, setWidgetLeft] = useState(getRandomInt())
   const [image, setImage_] = useState<UnsplashImage | undefined>(undefined)
-  const [md3Theme, setMd3Theme] = useState<MD3Theme>()
+  const [md3Theme, setMd3Theme] = useState<Theme>()
 
   const delayInMilliSecs = 1000 * 60 * changeIntervalInMin
 
@@ -216,7 +220,16 @@ const App = () => {
             transition: "2s",
           }}
         >
-          <Typography variant="h1">
+          <Typography
+            variant="h1"
+            sx={{
+              ...(isOutlined && {
+                "-webkit-text-stroke-width": "0.25rem",
+                "-webkit-text-stroke-color": theme.palette.primary.main,
+                color: "transparent",
+              }),
+            }}
+          >
             <Clock format={"HH:mm"} ticking={true} />
           </Typography>
         </Box>

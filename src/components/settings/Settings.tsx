@@ -9,6 +9,7 @@ import {
   InputAdornment,
   Slider,
   Stack,
+  Switch,
   TextField,
   Typography,
 } from "@mui/material"
@@ -64,11 +65,17 @@ const Settings: FunctionComponent<SettingsProps> = (props) => {
     defaultStorageValues.FONT
   )
 
+  const [isOutlined, setIsOutlined] = useLocalStorage(
+    LOCALSTORAGE_KEYS.OUTLINE,
+    defaultStorageValues.CLOCK.OUTLINE
+  )
+
   const idKeywords = "idKeywords"
   const idBlur = "idBlur"
   const idBrightness = "idBrightness"
   const idIntervalTime = "idIntervalTime"
   const idCrossfadeTime = "idCrossfadeTime"
+  const idFontOutline = "idFontOutline"
 
   const handleClose = () => {
     props.onClose && props.onClose("", "escapeKeyDown")
@@ -82,7 +89,8 @@ const Settings: FunctionComponent<SettingsProps> = (props) => {
   const handleChange = (
     event:
       | ChangeEvent<HTMLInputElement>
-      | FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>
+      | FocusEvent<HTMLInputElement | HTMLTextAreaElement, Element>,
+    checked?: boolean
   ) => {
     switch (event.target.id) {
       case idKeywords:
@@ -96,6 +104,9 @@ const Settings: FunctionComponent<SettingsProps> = (props) => {
         break
       case idCrossfadeTime:
         setCrossfadeInSec(ensureNumber(event.currentTarget.value))
+        break
+      case idFontOutline:
+        if (checked != null) setIsOutlined(checked)
         break
     }
   }
@@ -229,7 +240,25 @@ const Settings: FunctionComponent<SettingsProps> = (props) => {
           </Stack>
           <Divider />
           <Stack spacing={2} paddingLeft={4} paddingRight={4}>
-            <Typography variant="body1">Select a Font</Typography>
+            <Stack
+              direction="row"
+              sx={{
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <Typography variant="body1">Select a Font</Typography>
+              <FormControlLabel
+                control={
+                  <Switch
+                    id={idFontOutline}
+                    checked={isOutlined}
+                    onChange={handleChange}
+                  />
+                }
+                label="Outlined"
+              />
+            </Stack>
             <FontSelect value={font} onChange={setFont} />
           </Stack>
         </FormGroup>

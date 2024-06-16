@@ -11,6 +11,9 @@ export type LocalStorageTypes = {
   IMAGES?: JSON
   CURRENT_IMAGE?: string
   FONT: Font
+  CLOCK: {
+    OUTLINE: boolean
+  }
 }
 
 export enum LOCALSTORAGE_KEYS {
@@ -23,6 +26,7 @@ export enum LOCALSTORAGE_KEYS {
   CROSSFADE_TIME = "NuTabCrossfadeTime",
   MODE = "NuTabMode",
   FONT = "NuTabFont",
+  OUTLINE = "NuTabOutline",
 }
 
 export const defaultStorageValues: LocalStorageTypes = {
@@ -33,4 +37,7 @@ export const defaultStorageValues: LocalStorageTypes = {
   CROSSFADE_TIME: 2,
   MODE: "auto",
   FONT: Font.Nunito,
+  CLOCK: {
+    OUTLINE: false,
+  },
 }
