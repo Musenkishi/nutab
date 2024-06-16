@@ -8,7 +8,6 @@ import {
 } from "@mui/material"
 import { Theme } from "md3-theme-generator"
 import { useCallback, useEffect, useMemo, useState } from "react"
-import Clock from "react-live-clock"
 import {
   useLocalStorage,
   useMediaQuery,
@@ -18,24 +17,20 @@ import getImage from "./Api"
 import { defaultStorageValues, LOCALSTORAGE_KEYS } from "./app/storage"
 import CrossfadeImage from "./components/crossfade/CrossfadeImage"
 import NuLink from "./components/link/NuLink"
+import AntiBurnInBox from "./components/main/AntiBurnInBox"
+import StyledClock from "./components/main/StyledClock"
 import Toolbar from "./components/toolbar/Toolbar"
 import { Font } from "./fonts"
 import { generateMD3Theme, md3ToMuiPalette } from "./theme/themeGenerator"
 import { ThemeMode } from "./types/ThemeMode"
 import { DatedUnsplashImage, UnsplashImage } from "./types/Unsplash"
+import { getScreenSizedImageUrl } from "./util/unsplash"
 
 const App = () => {
   const zIndexes = {
     clock: 20,
     text: 21,
     toolbar: 22,
-  }
-
-  const getRandomInt = () => {
-    const pixels = 5
-    const min = Math.ceil(-pixels)
-    const max = Math.floor(pixels)
-    return Math.floor(Math.random() * (max - min) + min)
   }
 
   const themeMode: ThemeMode =
@@ -77,8 +72,6 @@ const App = () => {
     defaultStorageValues.CROSSFADE_TIME
   )
 
-  const [widgetTop, setWidgetTop] = useState(getRandomInt())
-  const [widgetLeft, setWidgetLeft] = useState(getRandomInt())
   const [image, setImage_] = useState<UnsplashImage | undefined>(undefined)
   const [md3Theme, setMd3Theme] = useState<Theme>()
 
@@ -97,10 +90,6 @@ const App = () => {
   }
 
   const loadImage = useCallback(async () => {
-    const preventScreenBurnIn = () => {
-      setWidgetTop(getRandomInt())
-      setWidgetLeft(getRandomInt())
-    }
     const image: UnsplashImage | undefined = await getImage(keywords as string)
     setImage(image)
     if (image) {
@@ -110,20 +99,7 @@ const App = () => {
       }
       setCurrentImage(JSON.stringify(datedImage))
     }
-    preventScreenBurnIn()
   }, [keywords])
-
-  const getScreenSizedImageUrl = (image?: UnsplashImage) => {
-    if (image) {
-      const url = new URL(image.urls.full)
-      const params = url.searchParams
-      params.append("w", window.screen.width.toString())
-      params.append("h", window.screen.height.toString())
-      return url.toString()
-    } else {
-      return ""
-    }
-  }
 
   useEffect(() => {
     const interval = setInterval(loadImage, delayInMilliSecs)
@@ -206,33 +182,15 @@ const App = () => {
             backdropFilter: `blur(${blurRadius}rem) brightness(${brightness})`,
           }}
         />
-        <Box
-          sx={{
-            position: "absolute",
-            top: widgetTop,
-            left: widgetLeft,
-            width: "100%",
-            height: "100%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            zIndex: zIndexes.clock,
-            transition: "2s",
-          }}
+        <AntiBurnInBox
+          updateIntervalMinutes={changeIntervalInMin}
+          sx={{ zIndex: zIndexes.clock }}
         >
-          <Typography
-            variant="h1"
-            sx={{
-              ...(isOutlined && {
-                "-webkit-text-stroke-width": "0.25rem",
-                "-webkit-text-stroke-color": theme.palette.primary.main,
-                color: "transparent",
-              }),
-            }}
-          >
-            <Clock format={"HH:mm"} ticking={true} />
-          </Typography>
-        </Box>
+          <StyledClock
+            isOutlined={isOutlined}
+            color={theme.palette.primary.main}
+          />
+        </AntiBurnInBox>
         <Box
           sx={{
             position: "absolute",
