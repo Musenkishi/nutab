@@ -10,6 +10,7 @@ import UnsplashInfo from "./components/main/UnsplashInfo"
 import UnsplashLocation from "./components/main/UnsplashLocation"
 import Toolbar from "./components/toolbar/Toolbar"
 import { useSettingsContext } from "./context/SettingsContext"
+import { Font } from "./fonts"
 import { generateMD3Theme, md3ToMuiPalette } from "./theme/themeGenerator"
 import { DatedUnsplashImage, UnsplashImage } from "./types/Unsplash"
 import { getScreenSizedImageUrl } from "./util/unsplash"
@@ -95,13 +96,13 @@ const Tabscape = () => {
           mode: preferedMode,
         },
         typography: {
-          fontFamily: font,
+          fontFamily: Font.Montserrat,
           h1: {
             fontSize: "9rem",
           },
         },
       }),
-    [mode, prefersDarkMode, md3Theme, font]
+    [mode, preferedMode, md3Theme]
   )
 
   return (

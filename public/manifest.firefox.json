@@ -1,15 +1,15 @@
 {
   "manifest_version": 2,
-  "name": "NuTab",
-  "short_name": "NuTab",
+  "name": "TabScape",
+  "short_name": "TabScape",
   "version": "1.2.0",
   "description": "Replaces your start- or new tab page with a minimalistic clock and beautiful backgrounds.",
   "author": "Freddie Lust-Hed",
   "homepage_url": "https://github.com/Musenkishi/nutab",
   "icons": {
-    "64": "nutab_logo.svg",
-    "192": "nutab_logo.svg",
-    "512": "nutab_logo.svg"
+    "64": "tabscape.svg",
+    "192": "tabscape.svg",
+    "512": "tabscape.svg"
   },
 
   "chrome_url_overrides": {

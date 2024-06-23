@@ -17,6 +17,7 @@ import { ChangeEvent, FocusEvent, FunctionComponent, useState } from "react"
 import { useSettingsContext } from "../../context/SettingsContext"
 import FontSelect from "./FontSelect"
 import ModeButton from "./ModeButton"
+import Version from "./Version"
 
 type SettingsProps = {
   open: boolean
@@ -242,6 +243,7 @@ const Settings: FunctionComponent<SettingsProps> = (props) => {
           </Stack>
         </FormGroup>
       </DialogContent>
+      <Version/>
     </Drawer>
   )
 }
