@@ -45,23 +45,19 @@ const Tabscape = () => {
     mode === "auto" ? (prefersDarkMode ? "dark" : "light") : mode
 
   const setImage = async (uImage: UnsplashImage | undefined) => {
-    if (!!uImage) {
-      const _md3Theme = await generateMD3Theme(getScreenSizedImageUrl(uImage))
-      setMd3Theme(_md3Theme)
-    }
     setImage_(uImage)
+    if (uImage) {
+      const datedImage: DatedUnsplashImage = {
+        ...uImage,
+        retreived_at: new Date().getTime(),
+      }
+      setCurrentImage(datedImage)
+    }
   }
 
   const loadImage = useCallback(async () => {
     const image: UnsplashImage | undefined = await getImage(keywords as string)
     setImage(image)
-    if (image) {
-      const datedImage: DatedUnsplashImage = {
-        ...image,
-        retreived_at: new Date().getTime(),
-      }
-      setCurrentImage(datedImage)
-    }
   }, [keywords])
 
   useEffect(() => {
@@ -105,6 +101,11 @@ const Tabscape = () => {
     [mode, preferedMode, md3Theme]
   )
 
+  const handleImageLoad = async (imgBuffer: ArrayBuffer) => {
+    const _md3Theme = await generateMD3Theme(imgBuffer)
+    setMd3Theme(_md3Theme)
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -133,6 +134,7 @@ const Tabscape = () => {
             height: "100%",
           }}
           durationMillis={crossfadeInSec * 1000}
+          onLoad={handleImageLoad}
         />
         <div
           style={{

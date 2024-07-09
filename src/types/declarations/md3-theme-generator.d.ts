@@ -156,12 +156,5 @@ declare module "md3-theme-generator" {
     save(): Theme
   }
 
-  export function generatePaletteFromURL(url: string): ThemeAdapter
-  export function generatePaletteFromImageElement(
-    image: HTMLImageElement
-  ): Promise<ImageColors>
-  export function generatePaletteFromImageData(
-    imageData: ImageData
-  ): Promise<ImageColors>
-  export function generatePaletteFromFile(file: Blob): Promise<ImageColors>
+  export function generatePaletteFromURL(url: string | ArrayBuffer): Promise<ThemeAdapter>
 }

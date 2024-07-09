@@ -1,4 +1,4 @@
-import { PaletteMode, ThemeOptions, createTheme } from "@mui/material"
+import { createTheme, PaletteMode, ThemeOptions } from "@mui/material"
 import { generatePaletteFromURL, Theme } from "md3-theme-generator"
 
 export const md3ToMuiPalette = (
@@ -32,17 +32,17 @@ export const md3ToMuiPalette = (
   }
 }
 
-export const generateMD3Theme = async (url: string) => {
-  const palette = await generatePaletteFromURL(url)
+export const generateMD3Theme = async (imgBuffer: ArrayBuffer) => {
+  const palette = await generatePaletteFromURL(imgBuffer)
   const theme = palette.save()
   return theme
 }
 
 export const generateMuiTheme = async (
-  url: string,
+  imgBuffer: ArrayBuffer,
   mode: PaletteMode = "light"
 ) => {
-  const md3Theme = await generateMD3Theme(url)
+  const md3Theme = await generateMD3Theme(imgBuffer)
   const muiTheme = createTheme({
     palette: md3ToMuiPalette(md3Theme, mode),
   })

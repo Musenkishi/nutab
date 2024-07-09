@@ -7,6 +7,7 @@ type CrossfadeImageProps = {
   delay?: number
   parentStyle?: any
   style?: any
+  onLoad?: (imgBuffer: ArrayBuffer) => void
 }
 
 const defaultStyle = { maxWidth: "100%", maxHeight: "100%" }
@@ -27,18 +28,35 @@ const CrossfadeImage: FunctionComponent<CrossfadeImageProps> = (props) => {
     setOldSrc(srcA)
   }
 
+  const fetchImage = async (url: string) => {
+    const imgResp = await fetch(url)
+    const imgBlob = await imgResp.blob()
+    const imgBuffer = await imgBlob.arrayBuffer()
+
+    const blobUrl = URL.createObjectURL(imgBlob)
+
+    if (props.onLoad) {
+      props.onLoad(imgBuffer)
+    }
+
+    return blobUrl
+  }
+
   useEffect(() => {
-    const newSrc = props.src
-    if (newSrc && newSrc !== oldSrc) {
-      const firstTime = !srcA && !srcB && !oldSrc
-      if (firstTime) {
-        setSrcB(newSrc)
-      } else if (oldSrc === srcA) {
-        setSrcA(newSrc)
-      } else {
-        setSrcB(newSrc)
+    const loadImage = async () => {
+      if (props.src && props.src !== oldSrc) {
+        const newSrc = await fetchImage(props.src)
+        const firstTime = !srcA && !srcB && !oldSrc
+        if (firstTime) {
+          setSrcB(newSrc)
+        } else if (oldSrc === srcA) {
+          setSrcA(newSrc)
+        } else {
+          setSrcB(newSrc)
+        }
       }
     }
+    loadImage()
   }, [props.src]) //Do not include all dependencies, will cause unwanted re-render
 
   return (
