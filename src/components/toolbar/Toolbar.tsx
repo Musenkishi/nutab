@@ -14,7 +14,7 @@ type Props = {
 
 const Toolbar = forwardRef<StackTypeMap, Props>((props, ref) => {
   const [isFullscreen, setIsFullscreen] = useState(false)
-  const [settingsDialogOpen, setSettingsDialogOpen] = useState(false)
+  const [settingsDrawerOpen, setSettingsDrawerOpen] = useState(false)
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen()
@@ -60,11 +60,11 @@ const Toolbar = forwardRef<StackTypeMap, Props>((props, ref) => {
       <TooltipIconButton
         tooltipTitle="Settings"
         icon={<SettingsIcon />}
-        onClick={() => setSettingsDialogOpen(true)}
+        onClick={() => setSettingsDrawerOpen(true)}
       />
       <Settings
-        open={settingsDialogOpen}
-        onClose={() => setSettingsDialogOpen(false)}
+        open={settingsDrawerOpen}
+        onClose={() => setSettingsDrawerOpen(false)}
       />
     </Stack>
   )

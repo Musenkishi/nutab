@@ -29,7 +29,7 @@ const ModeButton: React.FC<ModeButtonProps> = ({ mode, onChange }) => {
 
   return (
     <TooltipIconButton
-      tooltipTitle={mode}
+      tooltipTitle={"Mode: " + mode}
       icon={renderIcon(mode)}
       onClick={handleToggleMode}
     />

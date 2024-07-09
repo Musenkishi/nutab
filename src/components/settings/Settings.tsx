@@ -1,3 +1,4 @@
+import { Close } from "@mui/icons-material"
 import {
   DialogContent,
   DialogContentText,
@@ -17,13 +18,12 @@ import { ChangeEvent, FocusEvent, FunctionComponent, useState } from "react"
 import { useSettingsContext } from "../../context/SettingsContext"
 import FontSelect from "./FontSelect"
 import ModeButton from "./ModeButton"
+import TooltipIconButton from "./TooltipIconButton"
 import Version from "./Version"
 
 type SettingsProps = {
   open: boolean
-  onClose?:
-    | ((event: {}, reason: "backdropClick" | "escapeKeyDown") => void)
-    | undefined
+  onClose?: () => void
 }
 
 const Settings: FunctionComponent<SettingsProps> = (props) => {
@@ -58,7 +58,7 @@ const Settings: FunctionComponent<SettingsProps> = (props) => {
   const idFontOutline = "idFontOutline"
 
   const handleClose = () => {
-    props.onClose && props.onClose("", "escapeKeyDown")
+    props.onClose && props.onClose()
   }
 
   const ensureNumber = (value: string): number => {
@@ -113,7 +113,7 @@ const Settings: FunctionComponent<SettingsProps> = (props) => {
       BackdropProps={{ invisible: true }}
       anchor="right"
       open={props.open}
-      onClose={props.onClose}
+      onClose={handleClose}
     >
       <DialogTitle
         sx={{
@@ -123,12 +123,19 @@ const Settings: FunctionComponent<SettingsProps> = (props) => {
         }}
       >
         Settings
-        <ModeButton
-          mode={mode}
-          onChange={(newMode) => {
-            setMode(newMode)
-          }}
-        />
+        <Stack direction="row" spacing="1rem">
+          <ModeButton
+            mode={mode}
+            onChange={(newMode) => {
+              setMode(newMode)
+            }}
+          />
+          <TooltipIconButton
+            tooltipTitle={"Close"}
+            icon={<Close/>}
+            onClick={handleClose}
+          />
+        </Stack>
       </DialogTitle>
       <DialogContent dividers>
         <FormGroup sx={{ gap: 2 }}>
@@ -243,7 +250,7 @@ const Settings: FunctionComponent<SettingsProps> = (props) => {
           </Stack>
         </FormGroup>
       </DialogContent>
-      <Version/>
+      <Version />
     </Drawer>
   )
 }
